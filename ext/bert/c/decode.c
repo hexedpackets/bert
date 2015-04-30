@@ -14,9 +14,10 @@
 #define ERL_BIN           109
 #define ERL_SMALL_BIGNUM  110
 #define ERL_LARGE_BIGNUM  111
+#define ERL_MAP 				  116
 #define ERL_VERSION       131
 
-#define BERT_VALID_TYPE(t) ((t) >= ERL_SMALL_INT && (t) <= ERL_LARGE_BIGNUM)
+#define BERT_VALID_TYPE(t) ((t) >= ERL_SMALL_INT && (t) <= ERL_MAP)
 #define BERT_TYPE_OFFSET (ERL_SMALL_INT)
 
 static VALUE rb_mBERT;
@@ -42,6 +43,7 @@ static VALUE bert_read_list(struct bert_buf *buf);
 static VALUE bert_read_bin(struct bert_buf *buf);
 static VALUE bert_read_sbignum(struct bert_buf *buf);
 static VALUE bert_read_lbignum(struct bert_buf *buf);
+static VALUE bert_read_map(struct bert_buf *buf);
 
 typedef VALUE (*bert_ptr)(struct bert_buf *buf);
 static bert_ptr bert_callbacks[] = {
@@ -59,7 +61,8 @@ static bert_ptr bert_callbacks[] = {
 	&bert_read_list,
 	&bert_read_bin,
 	&bert_read_sbignum,
-	&bert_read_lbignum
+	&bert_read_lbignum,
+	&bert_read_map
 };
 
 static inline uint8_t bert_buf_read8(struct bert_buf *buf)
@@ -194,7 +197,7 @@ static VALUE bert_read_complex(struct bert_buf *buf, uint32_t arity)
 	} else if (id_type == rb_intern("regex")) {
 		VALUE rb_source, rb_opts;
 		int flags = 0;
-		
+
 		bert_ensure_arity(arity, 4);
 
 		rb_source = bert_read(buf);
@@ -438,7 +441,7 @@ VALUE bert_read_lbignum(struct bert_buf *buf)
  * -------------------
  *
  * A float is stored in string format. the format used in sprintf
- * to format the float is "%.20e" (there are more bytes allocated 
+ * to format the float is "%.20e" (there are more bytes allocated
  * than necessary). To unpack the float use sscanf with format "%lf".
  */
 static VALUE bert_read_float(struct bert_buf *buf)
