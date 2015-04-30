@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.date = %q{2010-02-08}
   s.description = %q{BERT Serializiation for Ruby}
   s.email = %q{tom@mojombo.com}
-  s.extensions = ["ext/bert/c/extconf.rb", "ext/bert/c/extconf.rb"]
+  #s.extensions = ["ext/bert/c/extconf.rb", "ext/bert/c/extconf.rb"]
   s.extra_rdoc_files = [
     "LICENSE",
      "README.md"
@@ -30,8 +30,8 @@ Gem::Specification.new do |s|
      "bench/encode_bench.rb",
      "bench/results.txt",
      "bert.gemspec",
-     "ext/bert/c/decode.c",
-     "ext/bert/c/extconf.rb",
+     #"ext/bert/c/decode.c",
+     #"ext/bert/c/extconf.rb",
      "lib/bert.rb",
      "lib/bert/bert.rb",
      "lib/bert/decode.rb",
@@ -46,7 +46,8 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/mojombo/bert}
   s.rdoc_options = ["--charset=UTF-8"]
-  s.require_paths = ["lib", "ext"]
+  #s.require_paths = ["lib", "ext"]
+  s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.5}
   s.summary = %q{BERT Serializiation for Ruby}
   s.test_files = [
