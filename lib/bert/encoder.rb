@@ -15,10 +15,6 @@ module BERT
     # Returns the converted Ruby object
     def self.convert(item)
       case item
-        when Hash
-          pairs = []
-          item.each_pair { |k, v| pairs << t[convert(k), convert(v)] }
-          t[:bert, :dict, pairs]
         when Tuple
           Tuple.new(item.map { |x| convert(x) })
         when Array

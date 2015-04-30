@@ -28,6 +28,7 @@ module BERT
         when Tuple then write_tuple(obj)
         when Array then write_list(obj)
         when String then write_binary(obj)
+        when Hash then write_map(obj)
         else
           fail(obj)
       end
@@ -128,6 +129,16 @@ module BERT
       write_1 BIN
       write_4 data.bytesize
       write_string data
+    end
+
+    def write_map(data)
+      write_1 MAP
+      write_4 data.length
+
+      data.each do |k,v|
+        write_any_raw k
+        write_any_raw v
+      end
     end
 
     private
